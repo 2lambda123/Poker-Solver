@@ -1,6 +1,6 @@
 from collections import Counter, defaultdict, namedtuple
 from itertools import islice, chain
-import random
+import secrets
 
 RankCount = namedtuple("Rankcount", ["count", "rank"])
 
@@ -65,7 +65,7 @@ def make_hand(cards_str):
 
 
 def make_random_hand(hand_size=7):
-    return random.sample(DECK, hand_size)
+    return secrets.SystemRandom().sample(DECK, hand_size)
 
 
 def get_kickers(cards, ignore=()):
