@@ -10,42 +10,62 @@ class Card:
     RANKS = "23456789TJQKA"
 
     def __init__(self, rank, suit):
+        """"""
+        
         self.rank = rank
         self.suit = suit
 
     @classmethod
     def from_str(cls, s):
+        """"""
+        
         return cls(cls.RANKS.index(s[0]), cls.SUITS.index(s[1]))
 
     def __eq__(self, other):
+        """"""
+        
         return self.rank == other.rank and self.suit == other.suit
 
     def __lt__(self, other):
+        """"""
+        
         return self.rank <= other.rank and self.suit < other.suit
 
     def __hash__(self):
+        """"""
+        
         return self.suit * 13 + self.rank
 
     def __repr__(self):
+        """"""
+        
         return "Card(" + self.RANKS[self.rank] + self.SUITS[self.suit] + ")"
 
 
 class Range:
     def __init__(self, hand_weights=None):
+        """"""
+        
         if hand_weights is None:
             self.hand_weights = defaultdict(float)
         else:
             self.hand_weights = defaultdict(float, hand_weights)
 
     def size(self, remove=()):
+        """"""
+        
         return sum(w for h, w in self.hand_weights.items() if set(h).isdisjoint(remove))
 
     def normalize(self):
+        """"""
+        
         mult = 1 / self.size()
         for hand in self.hand_weights:
             self.hand_weights[hand] *= mult
 
     def __add__(self, other):
+        """"""
+        
         result = {}
         for hand in (set(list(self.hand_weights.keys()))
                      ).union(set(list(other.hand_weights.keys()))):
@@ -53,6 +73,8 @@ class Range:
         return Range(result)
 
     def __repr__(self):
+        """"""
+        
         return ('Range with size ' + str(self.size()) + ':\n'
                 + '\n'.join(str(h) + ': ' + str(w) for h, w in self.hand_weights.items()))
 
@@ -61,10 +83,14 @@ DECK = tuple(Card(rank, suit) for rank in range(13) for suit in range(4))
 
 
 def make_hand(cards_str):
+    """"""
+    
     return [Card.from_str(s) for s in cards_str.split()]
 
 
 def make_random_hand(hand_size=7):
+    """"""
+    
     return secrets.SystemRandom().sample(DECK, hand_size)
 
 
